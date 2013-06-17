@@ -40,13 +40,19 @@ public class CommandProcessor {
 		while (inputLine != null){
 			//while (source.getIfFinish() != true){
 			if(inputLine.equals("list")){
+				System.out.println(inputLine);
 				list(writer);
+				System.out.println(inputLine);
 			}
 			else if (inputLine.equals("select")){
+				System.out.println(inputLine);
 				select(writer, reader);
+				
 			}
 			else {
+				System.out.println(inputLine);
 				writer.println("Unrecognized command");
+				System.out.println(inputLine);
 			}
 
 
@@ -75,7 +81,7 @@ public class CommandProcessor {
 					answer(writer, reader);
 					so.doNotify();
 					showEvr(writer, reader, partyName, Utils.obtainMyName());
-					//	saveResults(writer, reader);
+					//saveResults(writer, reader);
 					//if (!goOn(writer, reader)){
 					goOn(writer, reader);
 					//	return;
@@ -115,7 +121,7 @@ public class CommandProcessor {
 			}
 			str2 += chars[j];
 		}
-		String[] CompQ = {"v", "vo", "k", "o", "c", "gameResultAsString", "y", "u"};
+		String[] CompQ = {"v", "vo", "k", "o", "c", "s", "y", "u"};
 		List<String> wordList = Arrays.asList(CompQ);
 		String newStr = str2.toString();
 		if ( wordList.contains(newStr)){
@@ -129,11 +135,22 @@ public class CommandProcessor {
 
 		Map<String, Thread> clients = MultiServer.clients;
 
-		int i = 1;
+		/*int i = 1;
+		int i = 0;
+		for(String key : clients.keySet()){
+			pw.write(key + "\t");
+			i++;
+		}*/
+	//	int i = 0;
+		for(String key : clients.keySet()){
+			pw.write(key + "\t");
+			//i++;
+			}
+		/*int i = 1;
 		for(String key : clients.keySet()){
 			pw.write(i + "." + key + "\t");
 			i++;
-		}
+		}*/
 		pw.println("");
 	}
 
@@ -192,7 +209,7 @@ public class CommandProcessor {
 		List<Remember> list = source.getGameData();
 		Remember r = list.get(list.size()-1);
 		String s = r.getQuestion();
-		pw.println("The question is: " + CommandProcessor.firstWord(s)+ ", write your answer");
+		pw.println("The question is: "  + CommandProcessor.firstWord(s).toUpperCase() + ", write your answer");
 		String ans = br.readLine();
 		r.setAnswer(ans);
 		pw.println("\n");
@@ -209,8 +226,8 @@ public class CommandProcessor {
 		//askN = partyName;
 
 		for(Remember r : list){
-			s += askN + " asks for: " + r.getQuestion() + "\n";
-			s += ansN + " answers: " + r.getAnswer() + "\n";
+			s += askN + ": " + r.getQuestion() + "\n";
+			s += ansN + ": " + r.getAnswer() + "\n";
 			temp = askN;
 			askN = ansN;
 			ansN = temp;
